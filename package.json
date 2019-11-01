@@ -1,0 +1,40 @@
+{
+  "name": "@voliware/node-data-transform",
+  "version": "0.1.0",
+  "description": "Transforms data in a stream. Supports append, prepend, replace, erase, and compare",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Voliware/node-data-transform.git"
+  },
+  "keywords": [
+    "transform",
+    "stream",
+    "append",
+    "replace",
+    "erase",
+    "prepend",
+    "compare",
+    "node-data-transform",
+    "voliware"
+  ],
+  "author": "Anthony Agostino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Voliware/node-data-transform/issues"
+  },
+  "homepage": "https://github.com/Voliware/node-data-transform#readme",
+  "devDependencies": {
+    "mocha": "^6.2.2"
+  },
+  "dependencies": {
+    "@voliware/logger": "^1.5.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  }
+}
