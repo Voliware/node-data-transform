@@ -1,6 +1,10 @@
 # node-data-transform
 Transforms data in a stream. Supports append, prepend, replace, erase, and compare
 
+#### Install
+
+`npm install @voliware/node-data-transform`
+
 ## Why do I need it?
 If you have any stream in Node.js - a file, a TCP stream, a native Node request or response object - and you need to append data, prepend data, erase data, or replace data in the stream, you need this.
 
