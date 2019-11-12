@@ -1,8 +1,7 @@
-const Stream = require('stream');
-const Assert = require('assert');
+const {Readable, Writable} = require('stream');
 const Fs = require('fs')
 const Path = require('path');
-const {DataTransform} = require('../index');
+const DataTransform = require('../index');
 
 const test_file = Path.join(__dirname, "/test.html");
 const result_file = Path.join(__dirname, "/result.html");
@@ -13,15 +12,15 @@ const replace_file = Path.join(__dirname, "/replace.html");
 /**
  * Test function for basic tests
  * @param {DataTransform} datatransform 
- * @param {String} expectation 
  * @param {String} readable_data
+ * @param {String} expectation 
  * @returns {Promise} 
  */
-function run(datatransform, expectation, readable_data){
-    let readable = new Stream.Readable();
+function run(datatransform, readable_data, expectation){
+    let readable = new Readable();
     readable._read = () => {};
     let data = Buffer.from([]);
-    let writable = new Stream.Writable();
+    let writable = new Writable();
     writable._write = (chunk, enc, next) => { 
         data = Buffer.concat([data, chunk])
         next();
@@ -55,36 +54,36 @@ function run(datatransform, expectation, readable_data){
 
 it('appends data after a match', function() {
     let datatransform = new DataTransform().append("append", "data");
-    return run(datatransform, "appenddata", "append")
+    return run(datatransform, "append", "appenddata");
 });
 
 it('prepends data before a match', function() {
     let datatransform = new DataTransform().prepend("prepend", "data");
-    return run(datatransform, "dataprepend", "prepend")
+    return run(datatransform, "prepend", "dataprepend");
 });
 
 it('replaces data at a match', function() {
     let datatransform = new DataTransform().replace("replace", "data");
-    return run(datatransform, "data", "replace")
+    return run(datatransform, "replace", "data");
 });
 
 it('erases data at a match', function() {
     let datatransform = new DataTransform().erase("erase");
-    return run(datatransform, "", "erase")
+    return run(datatransform, "erase", "");
 });
 
 it('append, erase, prepend, and replace text in a file', function() {
-    let expectation = `<div><!-- append:append --><div id="append"></div><div id="prepend"></div><!-- prepend:prepend --></div><div>Anything at all..<!--compare:compare--></div>`;
+    let expectation = `<div><!-- append --><div id="append"></div><div id="prepend"></div><!-- prepend --></div><div>Anything at all..<!--compare--></div>`;
     let readable = Fs.createReadStream(test_file);
     let writable = Fs.createWriteStream(result_file);
     let datatransform = new DataTransform()
-        .replace(' ', '')
-        .replace(Buffer.from([0x0d, 0x0a]), '')
-        .append('<!-- append:append -->', append_file)
-        .compare('<!-- compare:compare -->')
-        .erase('<!-- erase:erase -->')
-        .prepend('<!-- prepend:prepend -->', prepend_file)
-        .replace('<!-- replace:replace -->', replace_file);
+        .erase(' ')
+        .erase(Buffer.from([0x0d, 0x0a]))
+        .erase('<!-- erase -->')
+        .append('<!-- append -->', append_file)
+        .compare('<!-- compare -->')
+        .prepend('<!-- prepend -->', prepend_file)
+        .replace('<!-- replace -->', replace_file);
 
     return new Promise((resolve, reject) => {
         readable
@@ -108,4 +107,3 @@ it('append, erase, prepend, and replace text in a file', function() {
             });
     })
 });
-

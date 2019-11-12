@@ -1,3 +1,1 @@
-module.exports = {
-    DataTransform: require('./lib/dataTransform'),
-};
+module.exports = require('./lib/dataTransform');
