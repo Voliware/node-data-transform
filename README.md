@@ -77,3 +77,28 @@ Search and replace in a file
 let datatransform = new DataTransform()
     .replace('youre', 'you're)                      // search and replace 
 ```
+
+## Options
+There are two options when creating a `DataTransform`.
+1. `concat` 
+    - If true [default], all chunks are concatenated before processing. This is usually what you want.
+    - If false, chunks are processed and sent downstream as they arrive.
+2. `modifiers` 
+    - Instead of using the API you can pass along an array of modifiers to the constructor.
+    - Each modifier object has the properties of 
+        - `action` - "append", "prepend", "replace", or "erase"
+        - `match` - the string or buffer to match against
+        - `content` - the string or buffer to append, prepend, or replace with
+
+### Example
+```js
+let datatransform = new DataTransform({
+    concat: false,
+    modifiers: [
+        {action: "append", match: "Joe", contents: " Senior"},
+        {action: "prepend", match: "Joe", contents: "Mr. "},
+        {action: "replace", match: "Joe", contents: "Matt"},
+        {action: "erase", match: "bad words"}
+    ]
+});
+```

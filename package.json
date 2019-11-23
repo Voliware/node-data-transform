@@ -1,6 +1,6 @@
 {
   "name": "@voliware/node-data-transform",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Transforms data in a stream. Supports append, prepend, replace, erase, and compare",
   "main": "index.js",
   "scripts": {
