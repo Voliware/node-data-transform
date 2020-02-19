@@ -40,7 +40,7 @@ function run(datatransform, readable_data, expectation){
                         resolve();
                     }
                     else {
-                        reject(new Error("Data not transformed as expected"));
+                        reject(new Error("Data does not match expectation"));
                     }
                 }
                 else {
@@ -63,18 +63,26 @@ it('compares data', async function() {
     Assert.strictEqual(passed, true);
 });
 
+// it('splits data between a start and end delimiters', async function() {
+//     let datatransform = new DataTransform().split({
+//         start: "<S>",
+//         end: "<E>"
+//     });
+//     return run(datatransform, "<S>data1<E>garbage<S>data2<E>", "data1data2");
+// });
+
 it('appends data after a match', function() {
-    let datatransform = new DataTransform().append("append", "data");
+    let datatransform = new DataTransform().append("append", {string: "data"});
     return run(datatransform, "append", "appenddata");
 });
 
 it('prepends data before a match', function() {
-    let datatransform = new DataTransform().prepend("prepend", "data");
+    let datatransform = new DataTransform().prepend("prepend", {string: "data"});
     return run(datatransform, "prepend", "dataprepend");
 });
 
 it('replaces data at a match', function() {
-    let datatransform = new DataTransform().replace("replace", "data");
+    let datatransform = new DataTransform().replace("replace", {string: "data"});
     return run(datatransform, "replace", "data");
 });
 
@@ -93,10 +101,10 @@ it('append, erase, prepend, and replace text in a file', function() {
         .erase(' ')
         .erase(Buffer.from([0x0d, 0x0a]))
         .erase('<!-- erase -->')
-        .append('<!-- append -->', append_file)
+        .append('<!-- append -->', {file: append_file})
         .compare('<!-- compare -->')
-        .prepend('<!-- prepend -->', prepend_file)
-        .replace('<!-- replace -->', replace_file);
+        .prepend('<!-- prepend -->', {file: prepend_file})
+        .replace('<!-- replace -->', {file: replace_file});
 
     return new Promise((resolve, reject) => {
         readable
