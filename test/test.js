@@ -98,7 +98,7 @@ it('erases data at a match', function() {
 });
 
 it('append, erase, prepend, and replace text in a file', function() {
-    let expectation = `<div><!-- append --><div id="append"></div><div id="prepend"></div><!-- prepend --></div><div>Anything at all..<!--compare--></div>`;
+    let expectation = `<div><!-- append --><div id="append"></div><div>This is to test the directory option</div><div id="prepend"></div><!-- prepend --></div><div>Anything at all..<!--compare--></div>`;
     // The highwatermark of 1 proves the transform can work 
     // when reading chunks that are just 1 character in length
     let readable = Fs.createReadStream(test_file, {highWaterMark:1});
@@ -107,7 +107,10 @@ it('append, erase, prepend, and replace text in a file', function() {
         .erase(' ')
         .erase(Buffer.from([0x0d, 0x0a]))
         .erase('<!-- erase -->')
-        .append('<!-- append -->', {file: append_file})
+        .append('<!-- append -->', [
+            {file: append_file},
+            {directory: Path.join(__dirname, "/directory")}
+        ])
         .compare('<!-- compare -->')
         .prepend('<!-- prepend -->', {file: prepend_file})
         .replace('<!-- replace -->', {file: replace_file});
@@ -132,5 +135,5 @@ it('append, erase, prepend, and replace text in a file', function() {
             .on('error', (error) => {
                 reject(error);
             });
-    })
+    });
 });
