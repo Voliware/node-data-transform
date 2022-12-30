@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/Voliware/node-data-transform#readme",
   "devDependencies": {
-    "mocha": "^6.2.2"
+    "mocha": "^10.2.0"
   },
   "dependencies": {
     "@voliware/logger": "^1.5.0",
